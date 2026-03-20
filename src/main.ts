@@ -15,6 +15,8 @@ async function bootstrap() {
     }),
   );
 
+  app.setGlobalPrefix('api');
+
   await app.listen(envs.PORT, () => {
     logger.log(`Server running on port ${envs.PORT}`);
   });

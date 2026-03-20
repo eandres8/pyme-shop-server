@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { envs } from './config/envs';
 import { AppController } from './app.controller';
+import { FeaturesModule } from './features/features.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AppController } from './app.controller';
       autoLoadEntities: true,
       synchronize: false,
     }),
+    FeaturesModule,
   ],
   controllers: [AppController],
   providers: [],
