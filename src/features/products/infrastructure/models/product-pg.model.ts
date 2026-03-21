@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { ProductImagePgModel } from './product-image-pg.model';
 
 @Entity({ schema: 'store', name: 'products' })
 export class ProductPgModel {
@@ -19,4 +21,11 @@ export class ProductPgModel {
 
   @Column({ type: 'int', default: 0 })
   stock: number;
+
+  @OneToMany(
+    () => ProductImagePgModel,
+    (productImage) => productImage.product,
+    { cascade: true },
+  )
+  images?: ProductImagePgModel[];
 }

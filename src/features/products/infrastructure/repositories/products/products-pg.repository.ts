@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 // import { to } from 'src/data/helpers';
 import { ProductsRepository } from './products.repository';
-import { ProductPgModel } from '../../models';
+import { ProductImagePgModel, ProductPgModel } from '../../models';
 import { PaginationDto, PaginationResponseDto } from 'src/data/dtos';
 import { CreateProductDto } from 'src/features/products/application/dtos';
 import { to, Result } from 'src/data/core';
@@ -17,7 +17,10 @@ export class ProductsPgRepository implements ProductsRepository {
 
   constructor(
     @InjectRepository(ProductPgModel)
-    private model: Repository<ProductPgModel>,
+    private readonly model: Repository<ProductPgModel>,
+
+    @InjectRepository(ProductImagePgModel)
+    private readonly modelImages: Repository<ProductImagePgModel>,
   ) {}
 
   async createProduct(
@@ -45,6 +48,9 @@ export class ProductsPgRepository implements ProductsRepository {
       this.model.find({
         take: pagination.limit,
         skip: (pagination.page - 1) * pagination.limit,
+        relations: {
+          images: true,
+        },
       }),
     );
 

@@ -10,6 +10,7 @@ export class ProductMapper {
       slug: product.slug,
       price: product.price,
       stock: product.stock,
+      images: product?.images?.map((image) => image.url) || [],
     });
   }
 }
