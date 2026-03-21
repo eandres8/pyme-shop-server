@@ -1,13 +1,15 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { IsInt, IsPositive } from 'class-validator';
 
 export class PaginationDto {
   @IsInt()
   @IsPositive()
+  @Type(() => Number)
   page: number = 1;
 
   @IsInt()
   @IsPositive()
+  @Type(() => Number)
   limit: number = 10;
 }
 
@@ -15,20 +17,20 @@ export class PaginationResponseDto {
   @Expose()
   @IsInt()
   @IsPositive()
-  total: number;
+  total: number = 0;
 
   @Expose()
   @IsInt()
   @IsPositive()
-  page: number;
+  page: number = 0;
 
   @Expose()
   @IsInt()
   @IsPositive()
-  limit: number;
+  limit: number = 0;
 
   @Expose()
   @IsInt()
   @IsPositive()
-  totalPages: number;
+  totalPages: number = 0;
 }

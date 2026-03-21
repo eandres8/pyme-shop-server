@@ -1,5 +1,14 @@
-import { PaginationDto } from 'src/data/dtos';
+import { Result } from 'src/data/core';
+import { PaginationDto, PaginationResponseDto } from 'src/data/dtos';
+import { CreateProductDto } from 'src/features/products/application/dtos';
+import { Product } from 'src/features/products/domain/entities';
 
 export abstract class ProductsRepository {
-  abstract listProducts(pagination: PaginationDto): Promise<any>; // TODO: create Product domain entity
+  abstract createProduct(product: CreateProductDto): Promise<Result<Product>>;
+
+  abstract listProducts(pagination: PaginationDto): Promise<Result<Product[]>>;
+
+  abstract paginationProducts(
+    pagination: PaginationDto,
+  ): Promise<Result<PaginationResponseDto>>;
 }

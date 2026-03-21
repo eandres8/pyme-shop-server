@@ -8,6 +8,7 @@ import {
   ProductsRepository,
   ProductsPgRepository,
 } from './infrastructure/repositories';
+import { CreateProduct } from './application/services/create-product/create-product.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProductPgModel])],
@@ -22,6 +23,7 @@ import {
       provide: ProductsRepository,
       useClass: ProductsPgRepository,
     },
+    CreateProduct,
   ],
 })
 export class ProductsModule {}

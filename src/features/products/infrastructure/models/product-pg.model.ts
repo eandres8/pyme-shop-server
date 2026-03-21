@@ -19,10 +19,4 @@ export class ProductPgModel {
 
   @Column({ type: 'int', default: 0 })
   stock: number;
-
-  @Column({ type: 'text', array: true })
-  sizes: string[];
-
-  @Column({ type: 'varchar', length: 20, nullable: false })
-  gender: string;
 }

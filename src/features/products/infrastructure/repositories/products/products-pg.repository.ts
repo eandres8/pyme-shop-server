@@ -1,20 +1,83 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // import { to } from 'src/data/helpers';
 import { ProductsRepository } from './products.repository';
 import { ProductPgModel } from '../../models';
-import { PaginationDto } from 'src/data/dtos';
+import { PaginationDto, PaginationResponseDto } from 'src/data/dtos';
+import { CreateProductDto } from 'src/features/products/application/dtos';
+import { to, Result } from 'src/data/core';
+import { Product } from 'src/features/products/domain/entities';
+import { ProductMapper } from 'src/features/products/application/mappers';
 
 @Injectable()
 export class ProductsPgRepository implements ProductsRepository {
+  private readonly logger = new Logger('ProductsPgRepository');
+
   constructor(
     @InjectRepository(ProductPgModel)
     private model: Repository<ProductPgModel>,
   ) {}
 
-  listProducts(pagination: PaginationDto): any {
-    return [pagination];
+  async createProduct(
+    product: CreateProductDto,
+  ): Promise<Result<Product, Error>> {
+    const productModel = this.model.create(product);
+
+    const [newProduct, error] = await to(this.model.save(productModel));
+
+    if (error) {
+      const message =
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        (error as any).code === '23505'
+          ? `El producto ${product.slug} ya existe`
+          : error.message;
+      this.logger.error(message);
+      return Result.failure(new Error(message));
+    }
+
+    return Result.success(ProductMapper.toProduct(newProduct));
+  }
+
+  async listProducts(pagination: PaginationDto): Promise<Result<Product[]>> {
+    const [listProducts, error] = await to(
+      this.model.find({
+        take: pagination.limit,
+        skip: (pagination.page - 1) * pagination.limit,
+      }),
+    );
+
+    if (error) {
+      this.logger.error(error);
+      return Result.failure(
+        new NotFoundException('No se encontraron productos'),
+      );
+    }
+
+    return Result.success(
+      listProducts.map((product) => ProductMapper.toProduct(product)),
+    );
+  }
+
+  async paginationProducts(
+    pagination: PaginationDto,
+  ): Promise<Result<PaginationResponseDto>> {
+    const [total, error] = await to(this.model.count());
+
+    if (error) {
+      return Result.failure(
+        new NotFoundException('No se encontraron productos'),
+      );
+    }
+
+    const data: PaginationResponseDto = {
+      total: total,
+      page: pagination.page,
+      limit: pagination.limit,
+      totalPages: Math.ceil(total / pagination.limit),
+    };
+
+    return Result.success(data);
   }
 }
