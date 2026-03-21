@@ -5,8 +5,8 @@ type EnvVars = {
   PORT: number;
   DATABASE_HOST: string;
   DATABASE_PORT: number;
-  DATABASE_USER: string;
-  DATABASE_PASS: string;
+  DATABASE_USERNAME: string;
+  DATABASE_PASSWORD: string;
   DATABASE_NAME: string;
 };
 
@@ -15,8 +15,8 @@ const envSchema = joi
     PORT: joi.number().required(),
     DATABASE_HOST: joi.string().required(),
     DATABASE_PORT: joi.number().required(),
-    DATABASE_USER: joi.string().required(),
-    DATABASE_PASS: joi.string().required(),
+    DATABASE_USERNAME: joi.string().required(),
+    DATABASE_PASSWORD: joi.string().required(),
     DATABASE_NAME: joi.string().required(),
   })
   .unknown(true);

@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('store.products')
+@Entity({ schema: 'store', name: 'products' })
 export class ProductPgModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
