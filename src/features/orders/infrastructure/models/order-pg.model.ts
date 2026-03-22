@@ -2,6 +2,7 @@ import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 import { OrderStatus } from '../../domain/types';
 import { OrderItemPgModel } from './order-item-pg.model';
+import { PaymentPgModel } from 'src/features/payments/infrastructure/models';
 
 @Entity({ schema: 'store', name: 'orders' })
 export class OrderPgModel {
@@ -18,4 +19,9 @@ export class OrderPgModel {
     cascade: true,
   })
   orderItems: OrderItemPgModel[];
+
+  @OneToMany(() => OrderItemPgModel, (orderItem) => orderItem.order, {
+    cascade: true,
+  })
+  payments: PaymentPgModel[];
 }
