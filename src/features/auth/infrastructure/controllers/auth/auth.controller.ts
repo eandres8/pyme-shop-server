@@ -1,16 +1,28 @@
 import { Controller, Post, Body } from '@nestjs/common';
 
+import {
+  LoginUserDto,
+  RegisterUserDto,
+} from 'src/features/auth/application/dtos';
+import {
+  RegisterUser,
+  SigninUser,
+} from 'src/features/auth/application/services';
+
 @Controller('auth')
 export class AuthController {
-  constructor() {}
+  constructor(
+    private readonly regirsterUser: RegisterUser,
+    private readonly signinUser: SigninUser,
+  ) {}
 
-  @Post()
-  login(@Body() loginDto: unknown) {
+  @Post('login')
+  login(@Body() loginDto: LoginUserDto) {
     return loginDto;
   }
 
-  @Post()
-  register(@Body() registerDto: unknown) {
-    return registerDto;
+  @Post('register')
+  register(@Body() registerDto: RegisterUserDto) {
+    return this.regirsterUser.execute(registerDto);
   }
 }
