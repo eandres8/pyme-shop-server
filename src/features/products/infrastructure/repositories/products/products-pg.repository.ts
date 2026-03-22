@@ -1,8 +1,12 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
-// import { to } from 'src/data/helpers';
 import { ProductsRepository } from './products.repository';
 import { ProductImagePgModel, ProductPgModel } from '../../models';
 import { PaginationDto, PaginationResponseDto } from 'src/data/dtos';
@@ -32,7 +36,6 @@ export class ProductsPgRepository implements ProductsRepository {
 
     if (error) {
       const message =
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         (error as any).code === '23505'
           ? `El producto ${product.slug} ya existe`
           : error.message;
@@ -85,5 +88,18 @@ export class ProductsPgRepository implements ProductsRepository {
     };
 
     return Result.success(data);
+  }
+
+  async findByIdList(ids: string[]): Promise<Result<Product[]>> {
+    const [listProducts, error] = await to(this.model.findBy({ id: In(ids) }));
+
+    if (error) {
+      this.logger.error(error);
+      return Result.failure(new BadRequestException(error.message));
+    }
+
+    return Result.success(
+      listProducts.map((product) => ProductMapper.toProduct(product)),
+    );
   }
 }

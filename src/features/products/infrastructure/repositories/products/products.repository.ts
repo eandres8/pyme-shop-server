@@ -11,4 +11,6 @@ export abstract class ProductsRepository {
   abstract paginationProducts(
     pagination: PaginationDto,
   ): Promise<Result<PaginationResponseDto>>;
+
+  abstract findByIdList(ids: string[]): Promise<Result<Product[]>>;
 }

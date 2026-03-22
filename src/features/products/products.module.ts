@@ -18,12 +18,12 @@ import { CreateProduct } from './application/services/create-product/create-prod
   ],
   providers: [
     ListProductsPaginate,
+    CreateProduct,
     // Adapters
     {
       provide: ProductsRepository,
       useClass: ProductsPgRepository,
     },
-    CreateProduct,
   ],
 })
 export class ProductsModule {}
