@@ -7,20 +7,21 @@ export class Order {
     readonly id: string,
     readonly status: OrderStatus,
     readonly total: number,
+    readonly userId: string,
     private readonly items: OrderItem[] = [],
   ) {}
 
-  static fromJson(data: TOrder): Order {
+  static fromJson(data: Partial<TOrder>): Order {
     return new Order(
-      data.id,
-      OrderStatus[data.status] || OrderStatus.PENDING,
+      data?.id || '',
+      data?.status ? OrderStatus[data.status] : OrderStatus.PENDING,
       Number(data.total),
-      data.items.map((item) => OrderItem.fromJson(item)),
+      data?.userId || '',
     );
   }
 
-  static create(id: string): Order {
-    return new Order(id, OrderStatus.PENDING, 0);
+  static create(id: string, uid: string): Order {
+    return new Order(id, OrderStatus.PENDING, 0, uid);
   }
 
   copyWith(data: Partial<TOrder>) {
@@ -28,6 +29,7 @@ export class Order {
       data?.id ?? this.id,
       data?.status ?? this.status,
       Number(data?.total ?? this.total),
+      data?.userId || this.userId,
       data?.items?.map((item) => OrderItem.fromJson(item)) ?? this.getItems(),
     );
   }

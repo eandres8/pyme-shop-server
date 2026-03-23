@@ -4,6 +4,7 @@ export type TOrder = {
   readonly id: string;
   readonly status: OrderStatus;
   readonly total: number;
+  readonly userId: string;
   readonly items: TOrderItem[];
 };
 

@@ -28,6 +28,9 @@ export class OrdersPgRepository implements OrdersRepository {
       id: data.id,
       status: data.status,
       total: data.total,
+      user: {
+        id: data.user.id,
+      },
       orderItems: data.items.map((item) => {
         return this.orderItemModel.create({
           productId: item.productId,
@@ -49,10 +52,11 @@ export class OrdersPgRepository implements OrdersRepository {
   }
 
   async listUserOrders(uid: string): Promise<Result<Order[]>> {
-    console.log(uid);
-
     const [orders, error] = await to(
-      this.orderModel.find({ relations: ['orderItems'] }),
+      this.orderModel.find({
+        where: { user: { id: uid } },
+        relations: ['orderItems', 'user'],
+      }),
     );
 
     if (error) {

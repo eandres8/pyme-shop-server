@@ -14,7 +14,7 @@ export class CreateOrder {
   ) {}
 
   async execute(data: CreateOrderDto, uid: string) {
-    const order = Order.create(crypto.randomUUID());
+    const order = Order.create(crypto.randomUUID(), uid);
 
     if (data.products.length === 0) {
       throw new BadRequestException('Debes seleccionar al menos un producto');
@@ -43,8 +43,12 @@ export class CreateOrder {
 
     const newOrder = order.addItems(listItems);
 
-    await this.orderRepo.createOrder(newOrder);
+    const result = await this.orderRepo.createOrder(newOrder);
 
-    return order;
+    if (!result.isOk) {
+      throw new BadRequestException(result.getError().message);
+    }
+
+    return result.getData();
   }
 }

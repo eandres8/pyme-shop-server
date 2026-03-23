@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+
+import { OrderPgModel } from 'src/features/orders/infrastructure/models';
 
 @Entity({ schema: 'auth', name: 'users' })
 export class UserPgModel {
@@ -34,4 +37,13 @@ export class UserPgModel {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  // =============
+  // Relations
+  // =============
+
+  @OneToMany(() => OrderPgModel, (order) => order.user, {
+    cascade: true,
+  })
+  orders: OrderPgModel[];
 }

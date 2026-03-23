@@ -10,6 +10,9 @@ export class OrderMapper {
       total: order.total,
       status: OrderStatus[order.status],
       items: order.getItems().map((item) => item.toPrimitives()),
+      user: {
+        id: order.userId,
+      },
     };
   }
 
@@ -20,8 +23,8 @@ export class OrderMapper {
       id: data.id,
       total: data.total,
       status: data.status,
-      items,
-    });
+      userId: data.user.id,
+    }).addItems(items);
 
     return order;
   }
