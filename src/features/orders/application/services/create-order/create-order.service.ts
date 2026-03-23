@@ -13,7 +13,7 @@ export class CreateOrder {
     private readonly productRepo: ProductsRepository,
   ) {}
 
-  async execute(data: CreateOrderDto) {
+  async execute(data: CreateOrderDto, uid: string) {
     const order = Order.create(crypto.randomUUID());
 
     if (data.products.length === 0) {

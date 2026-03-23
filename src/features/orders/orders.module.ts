@@ -17,6 +17,7 @@ import {
   ProductPgModel,
 } from '../products/infrastructure/models';
 import { ListUserOrders } from './application/services/list-user-orders/list-user-orders.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ListUserOrders } from './application/services/list-user-orders/list-use
       ProductPgModel,
       ProductImagePgModel,
     ]),
+    AuthModule,
   ],
   controllers: [OrdersController],
   providers: [

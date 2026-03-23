@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { PaginationDto } from 'src/data/dtos';
 import { CreateProductDto } from 'src/features/products/application/dtos';
 
@@ -15,6 +16,7 @@ export class ProductsController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard())
   create(@Body() body: CreateProductDto) {
     return this.createProduct.execute(body);
   }

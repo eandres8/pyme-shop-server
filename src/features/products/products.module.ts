@@ -9,9 +9,13 @@ import {
   ProductsPgRepository,
 } from './infrastructure/repositories';
 import { CreateProduct } from './application/services/create-product/create-product.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductPgModel, ProductImagePgModel])],
+  imports: [
+    TypeOrmModule.forFeature([ProductPgModel, ProductImagePgModel]),
+    AuthModule,
+  ],
   controllers: [
     // Ports
     ProductsController,

@@ -1,12 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 import {
   SendPayment,
@@ -25,6 +18,7 @@ export class PaymentsController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard())
   create(@Body() sendPaymentDto: SendPaymentDto) {
     return this.sendPayment.execute(sendPaymentDto);
   }
@@ -32,25 +26,5 @@ export class PaymentsController {
   @Post('webhook')
   webhook(@Body() sendPaymentDto: WebhookResponseDto) {
     return this.webhookResponsePayment.execute(sendPaymentDto);
-  }
-
-  @Get()
-  findAll() {
-    return [];
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return [id];
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaymentDto: unknown) {
-    return [id, updatePaymentDto];
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return [id];
   }
 }

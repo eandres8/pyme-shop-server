@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { OrdersRepository } from './orders.repository';
+import { OrdersRepository } from '../../../domain/ports/orders.repository';
 import { Result, to } from 'src/data/core';
 import { Order } from 'src/features/orders/domain/entities';
 import { OrderItemPgModel, OrderPgModel } from '../../models';
@@ -48,7 +48,9 @@ export class OrdersPgRepository implements OrdersRepository {
     return Result.success(OrderMapper.toDomain(newOrder));
   }
 
-  async listUserOrders(): Promise<Result<Order[]>> {
+  async listUserOrders(uid: string): Promise<Result<Order[]>> {
+    console.log(uid);
+
     const [orders, error] = await to(
       this.orderModel.find({ relations: ['orderItems'] }),
     );

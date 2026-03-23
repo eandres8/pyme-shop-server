@@ -1,12 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/features/auth/application/decotarors';
+import { User } from 'src/features/auth/domain/entities';
 
 import { CreateOrderDto } from 'src/features/orders/application/dtos';
 import {
@@ -22,27 +17,14 @@ export class OrdersController {
   ) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.createOrder.execute(createOrderDto);
+  @UseGuards(AuthGuard())
+  create(@Body() createOrderDto: CreateOrderDto, @GetUser('id') user: User) {
+    return this.createOrder.execute(createOrderDto, user.id);
   }
 
   @Get()
-  findAll() {
-    return this.listUserOrders.execute();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return [id];
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: unknown) {
-    return [id, updateOrderDto];
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return [id];
+  @UseGuards(AuthGuard())
+  findAll(@GetUser() user: User) {
+    return this.listUserOrders.execute(user.id);
   }
 }

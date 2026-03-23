@@ -9,9 +9,13 @@ import { PaymentRepository } from './infrastructure/repositories/payment.reposit
 import { OrderPgModel } from '../orders/infrastructure/models';
 import { PaymentGateway, WompiGateway } from './infrastructure/gateways';
 import { WebhookResponsePayment } from './application/services/webhook-response-payment/webhook-response-payment.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PaymentPgModel, OrderPgModel])],
+  imports: [
+    TypeOrmModule.forFeature([PaymentPgModel, OrderPgModel]),
+    AuthModule,
+  ],
   controllers: [PaymentsController],
   providers: [
     SendPayment,

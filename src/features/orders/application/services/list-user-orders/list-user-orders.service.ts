@@ -6,8 +6,8 @@ import { OrdersRepository } from 'src/features/orders/infrastructure/repositorie
 export class ListUserOrders {
   constructor(private readonly ordersRepository: OrdersRepository) {}
 
-  async execute() {
-    const result = await this.ordersRepository.listUserOrders();
+  async execute(uid: string) {
+    const result = await this.ordersRepository.listUserOrders(uid);
 
     if (!result.isOk) {
       throw new NotFoundException(result.getError().message);
