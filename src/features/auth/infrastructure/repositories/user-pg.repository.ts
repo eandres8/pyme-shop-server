@@ -35,7 +35,6 @@ export class UserPgRepository implements UserRepository {
     const [newUser, error] = await to(this.userModel.save(userModel));
 
     if (error) {
-      console.log(error);
       const errMessage = getErrorMessage(error);
       this.logger.error(errMessage);
       return Result.failure(new Error(errMessage));

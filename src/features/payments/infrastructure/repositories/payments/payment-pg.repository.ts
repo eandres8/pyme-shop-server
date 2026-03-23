@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Result, to } from 'src/data/core';
-import { OrderPgModel } from 'src/features/orders/infrastructure/models';
 import { Payment } from '../../../domain/entities/payment.entity';
 import { PaymentPgModel } from '../../models';
 import { getErrorMessage } from 'src/data/helpers';
@@ -15,22 +14,19 @@ export class PaymentPgRepository implements PaymentRepository {
   private readonly logger = new Logger('PaymentPgRepository');
 
   constructor(
-    @InjectRepository(OrderPgModel)
+    @InjectRepository(PaymentPgModel)
     private readonly paymentModel: Repository<PaymentPgModel>,
   ) {}
 
   async createPayment(params: Payment): Promise<Result<Payment>> {
     const data = PaymentMapper.toPersistence(params);
 
-    const paymentModel = this.paymentModel.create({
-      amount: data.amount,
-      status: data.status,
-      order: { id: data.orderId },
-    });
+    const paymentModel = this.paymentModel.create(data);
 
     const [newPayment, error] = await to(this.paymentModel.save(paymentModel));
 
     if (error) {
+      console.log(error);
       const errMessage = getErrorMessage(error);
       this.logger.error(errMessage);
       return Result.failure(new Error(errMessage));

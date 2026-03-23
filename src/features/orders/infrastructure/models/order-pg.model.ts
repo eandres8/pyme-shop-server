@@ -42,7 +42,7 @@ export class OrderPgModel {
   })
   orderItems: OrderItemPgModel[];
 
-  @OneToMany(() => OrderItemPgModel, (orderItem) => orderItem.order, {
+  @OneToMany(() => PaymentPgModel, (payment) => payment.order, {
     cascade: true,
   })
   payments: PaymentPgModel[];

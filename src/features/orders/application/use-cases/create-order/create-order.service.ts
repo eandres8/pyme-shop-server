@@ -58,8 +58,6 @@ export class CreateOrder {
       total: orderData.total,
     };
 
-    console.log(eventData);
-
     this.eventEmitter.emit('order.created', eventData);
 
     return result.getData();

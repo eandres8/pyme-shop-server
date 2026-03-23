@@ -1,22 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
 import { SendPaymentDto } from '../../dtos';
-import {
-  PaymentRepository,
-  PaymentGateway,
-} from 'src/features/payments/domain/ports';
+import { PaymentRepository } from 'src/features/payments/domain/ports';
+import { Payment } from 'src/features/payments/domain/entities';
 
 @Injectable()
 export class SendPayment {
-  constructor(
-    private readonly paymentRepository: PaymentRepository,
-    private readonly paymentGateway: PaymentGateway,
-  ) {}
+  private readonly logger = new Logger(SendPayment.name);
+
+  constructor(private readonly paymentRepository: PaymentRepository) {}
 
   @OnEvent('order.created')
-  execute(sendPaymentDto: SendPaymentDto) {
+  async execute(sendPaymentDto: SendPaymentDto) {
     const data = SendPaymentDto.toInstance(sendPaymentDto);
-    console.log({ data });
+
+    const payment = Payment.fromJson({
+      id: crypto.randomUUID(),
+      orderId: data.orderId,
+      amount: data.total,
+    });
+
+    const result = await this.paymentRepository.createPayment(payment);
+
+    if (!result.isOk) {
+      this.logger.error(result.getError());
+      return;
+    }
+
+    return result.getData();
   }
 }

@@ -14,7 +14,7 @@ export class Payment {
       data.id,
       data.orderId,
       Number(data.amount),
-      PaymentStatus[data.status] || PaymentStatus.PENDING,
+      data?.status ? PaymentStatus[data?.status] : PaymentStatus.PENDING,
     );
   }
 

@@ -60,7 +60,6 @@ export class OrdersPgRepository implements OrdersRepository {
     );
 
     if (error) {
-      console.log(error);
       const errMessage = getErrorMessage(error);
       this.logger.error(errMessage);
       return Result.failure(error);

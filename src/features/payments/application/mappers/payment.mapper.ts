@@ -6,8 +6,10 @@ export class PaymentMapper {
     return {
       id: payment.id,
       amount: payment.amount,
-      orderId: payment.orderId,
       status: payment.status,
+      order: {
+        id: payment.orderId,
+      },
     };
   }
 
