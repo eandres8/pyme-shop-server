@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { PaymentGateway } from './payment.gateway';
 import { Result } from 'src/data/core';
-import { TPaymentParams, TPaymentResponse } from '../../domain/types';
+import { TPaymentParams, TPaymentResponse } from '../../../domain/types';
+import { PaymentGateway } from '../../../domain/ports/payment.gateway';
 
 @Injectable()
 export class WompiGateway implements PaymentGateway {

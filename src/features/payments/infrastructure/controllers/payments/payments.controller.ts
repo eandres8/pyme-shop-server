@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   SendPayment,
   WebhookResponsePayment,
-} from 'src/features/payments/application/services';
+} from 'src/features/payments/application/use-cases';
 import {
   SendPaymentDto,
   WebhookResponseDto,

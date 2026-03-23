@@ -4,11 +4,11 @@ import { Repository } from 'typeorm';
 
 import { Result, to } from 'src/data/core';
 import { OrderPgModel } from 'src/features/orders/infrastructure/models';
-import { Payment } from '../../domain/entities/payment.entity';
-import { PaymentPgModel } from '../models';
-import { PaymentRepository } from './payment.repository';
+import { Payment } from '../../../domain/entities/payment.entity';
+import { PaymentPgModel } from '../../models';
 import { getErrorMessage } from 'src/data/helpers';
-import { PaymentMapper } from '../../application/mappers/payment.mapper';
+import { PaymentMapper } from '../../../application/mappers/payment.mapper';
+import { PaymentRepository } from 'src/features/payments/domain/ports';
 
 @Injectable()
 export class PaymentPgRepository implements PaymentRepository {

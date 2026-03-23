@@ -7,7 +7,7 @@ import { CreateOrderDto } from 'src/features/orders/application/dtos';
 import {
   CreateOrder,
   ListUserOrders,
-} from 'src/features/orders/application/services';
+} from 'src/features/orders/application/use-cases';
 
 @Controller('orders')
 export class OrdersController {

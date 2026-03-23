@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { PaymentRepository } from 'src/features/payments/infrastructure/repositories';
 import { SendPaymentDto } from '../../dtos';
-import { PaymentGateway } from 'src/features/payments/infrastructure/gateways';
+import {
+  PaymentRepository,
+  PaymentGateway,
+} from 'src/features/payments/domain/ports';
 
 @Injectable()
 export class SendPayment {

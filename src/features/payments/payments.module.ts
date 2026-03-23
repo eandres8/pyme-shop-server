@@ -3,13 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { PaymentsController } from './infrastructure/controllers';
 import { PaymentPgModel } from './infrastructure/models';
-import { SendPayment } from './application/services/send-payment/send-payment.service';
-import { PaymentPgRepository } from './infrastructure/repositories/payment-pg.repository';
-import { PaymentRepository } from './infrastructure/repositories/payment.repository';
+import { PaymentPgRepository } from './infrastructure/repositories/payments/payment-pg.repository';
 import { OrderPgModel } from '../orders/infrastructure/models';
-import { PaymentGateway, WompiGateway } from './infrastructure/gateways';
-import { WebhookResponsePayment } from './application/services/webhook-response-payment/webhook-response-payment.service';
+import { WompiGateway } from './infrastructure/gateways';
 import { AuthModule } from '../auth/auth.module';
+import { PaymentGateway, PaymentRepository } from './domain/ports';
+import { SendPayment, WebhookResponsePayment } from './application/use-cases';
 
 @Module({
   imports: [

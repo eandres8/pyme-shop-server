@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 import { PaginationDto, PaginationResponseDto } from 'src/data/dtos';
-import { ProductsRepository } from 'src/features/products/infrastructure/repositories';
 import { ListProductsPaginateDto } from '../../dtos/list-products-paginated.dto';
+import { ProductsRepository } from 'src/features/products/domain/ports';
 
 @Injectable()
 export class ListProductsPaginate {

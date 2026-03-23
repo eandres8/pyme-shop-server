@@ -3,13 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ProductsController } from './infrastructure/controllers';
 import { ProductImagePgModel, ProductPgModel } from './infrastructure/models';
-import { ListProductsPaginate } from './application/services';
-import {
-  ProductsRepository,
-  ProductsPgRepository,
-} from './infrastructure/repositories';
-import { CreateProduct } from './application/services/create-product/create-product.service';
+import { ListProductsPaginate, CreateProduct } from './application/use-cases';
+import { ProductsPgRepository } from './infrastructure/repositories';
 import { AuthModule } from '../auth/auth.module';
+import { ProductsRepository } from './domain/ports';
 
 @Module({
   imports: [

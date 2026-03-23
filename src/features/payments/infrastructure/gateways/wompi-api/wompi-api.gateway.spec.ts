@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { OrdersPgRepository } from './orders-pg.repository';
+import { WompiGateway } from './wompi-api.gateway';
 
-describe('OrdersPgRepository', () => {
-  let service: OrdersPgRepository;
+describe('WompiGateway', () => {
+  let service: WompiGateway;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OrdersPgRepository],
+      providers: [WompiGateway],
     }).compile();
 
-    service = module.get<OrdersPgRepository>(OrdersPgRepository);
+    service = module.get<WompiGateway>(WompiGateway);
   });
 
   it('should be defined', () => {

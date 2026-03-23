@@ -3,8 +3,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from '../../dtos';
 import { Order } from 'src/features/orders/domain/entities';
 import { OrderItem } from 'src/features/orders/domain/value-objects';
-import { OrdersRepository } from 'src/features/orders/infrastructure/repositories';
-import { ProductsRepository } from 'src/features/products/infrastructure/repositories';
+import { OrdersRepository } from 'src/features/orders/domain/ports';
+import { ProductsRepository } from 'src/features/products/domain/ports';
 
 @Injectable()
 export class CreateOrder {

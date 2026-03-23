@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
-import { ProductsRepository } from './products.repository';
+import { ProductsRepository } from '../../../domain/ports/products.repository';
 import { ProductImagePgModel, ProductPgModel } from '../../models';
 import { PaginationDto, PaginationResponseDto } from 'src/data/dtos';
 import { CreateProductDto } from 'src/features/products/application/dtos';

@@ -7,7 +7,7 @@ import {
 import {
   RegisterUser,
   SigninUser,
-} from 'src/features/auth/application/services';
+} from 'src/features/auth/application/use-cases';
 
 @Controller('auth')
 export class AuthController {

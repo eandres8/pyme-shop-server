@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { OrdersRepository } from 'src/features/orders/infrastructure/repositories';
+import { OrdersRepository } from 'src/features/orders/domain/ports';
 
 @Injectable()
 export class ListUserOrders {

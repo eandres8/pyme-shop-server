@@ -2,22 +2,18 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { OrdersController } from './infrastructure/controllers';
-import { CreateOrder } from './application/services';
-import {
-  OrdersPgRepository,
-  OrdersRepository,
-} from './infrastructure/repositories';
+import { CreateOrder } from './application/use-cases';
+import { OrdersPgRepository } from './infrastructure/repositories';
 import { OrderItemPgModel, OrderPgModel } from './infrastructure/models';
-import {
-  ProductsPgRepository,
-  ProductsRepository,
-} from '../products/infrastructure/repositories';
+import { ProductsPgRepository } from '../products/infrastructure/repositories';
 import {
   ProductImagePgModel,
   ProductPgModel,
 } from '../products/infrastructure/models';
-import { ListUserOrders } from './application/services/list-user-orders/list-user-orders.service';
+import { ListUserOrders } from './application/use-cases/list-user-orders/list-user-orders.service';
 import { AuthModule } from '../auth/auth.module';
+import { ProductsRepository } from '../products/domain/ports';
+import { OrdersRepository } from './domain/ports';
 
 @Module({
   imports: [

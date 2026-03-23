@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { envs } from 'src/config/envs';
 import { AuthController } from './infrastructure/controllers';
 import { UserPgModel } from './infrastructure/models';
-import { RegisterUser, SigninUser } from './application/services';
+import { RegisterUser, SigninUser } from './application/use-cases';
 import { UserRepository } from './domain/ports';
 import { UserPgRepository } from './infrastructure/repositories';
 import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
