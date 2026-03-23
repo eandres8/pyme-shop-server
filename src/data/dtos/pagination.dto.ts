@@ -1,14 +1,16 @@
 import { Expose, Type } from 'class-transformer';
-import { IsInt, IsPositive } from 'class-validator';
+import { IsInt, IsPositive, Min } from 'class-validator';
 
 export class PaginationDto {
   @IsInt()
   @IsPositive()
+  @Min(1)
   @Type(() => Number)
   page: number = 1;
 
   @IsInt()
   @IsPositive()
+  @Min(1)
   @Type(() => Number)
   limit: number = 10;
 }

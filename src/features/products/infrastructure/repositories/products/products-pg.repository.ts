@@ -5,10 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 
 import { ProductsRepository } from '../../../domain/ports/products.repository';
-import { ProductImagePgModel, ProductPgModel } from '../../models';
+import { ProductPgModel } from '../../models';
 import { PaginationDto, PaginationResponseDto } from 'src/data/dtos';
 import { CreateProductDto } from 'src/features/products/application/dtos';
 import { to, Result } from 'src/data/core';
@@ -22,9 +22,6 @@ export class ProductsPgRepository implements ProductsRepository {
   constructor(
     @InjectRepository(ProductPgModel)
     private readonly model: Repository<ProductPgModel>,
-
-    @InjectRepository(ProductImagePgModel)
-    private readonly modelImages: Repository<ProductImagePgModel>,
   ) {}
 
   async createProduct(
@@ -71,8 +68,11 @@ export class ProductsPgRepository implements ProductsRepository {
 
   async paginationProducts(
     pagination: PaginationDto,
+    search?: string,
   ): Promise<Result<PaginationResponseDto>> {
-    const [total, error] = await to(this.model.count());
+    const filters = search ? { where: { title: Like(`%${search}%`) } } : {};
+
+    const [total, error] = await to(this.model.count(filters));
 
     if (error) {
       return Result.failure(
@@ -93,6 +93,32 @@ export class ProductsPgRepository implements ProductsRepository {
   async findByIdList(ids: string[]): Promise<Result<Product[]>> {
     const [listProducts, error] = await to(this.model.findBy({ id: In(ids) }));
 
+    if (error) {
+      this.logger.error(error);
+      return Result.failure(new BadRequestException(error.message));
+    }
+
+    return Result.success(
+      listProducts.map((product) => ProductMapper.toProduct(product)),
+    );
+  }
+
+  async searchProducts(
+    query: string,
+    pagination: PaginationDto,
+  ): Promise<Result<Product[]>> {
+    const [listProducts, error] = await to(
+      this.model.find({
+        where: {
+          title: Like(`%${query}%`),
+        },
+        take: pagination.limit,
+        skip: (pagination.page - 1) * pagination.limit,
+        relations: {
+          images: true,
+        },
+      }),
+    );
     if (error) {
       this.logger.error(error);
       return Result.failure(new BadRequestException(error.message));

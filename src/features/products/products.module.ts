@@ -7,6 +7,7 @@ import { ListProductsPaginate, CreateProduct } from './application/use-cases';
 import { ProductsPgRepository } from './infrastructure/repositories';
 import { AuthModule } from '../auth/auth.module';
 import { ProductsRepository } from './domain/ports';
+import { SearchProducts } from './application/use-cases/search-products/search-products.service';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ProductsRepository } from './domain/ports';
       provide: ProductsRepository,
       useClass: ProductsPgRepository,
     },
+    SearchProducts,
   ],
 })
 export class ProductsModule {}

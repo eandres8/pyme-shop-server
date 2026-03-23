@@ -10,7 +10,13 @@ export abstract class ProductsRepository {
 
   abstract paginationProducts(
     pagination: PaginationDto,
+    search?: string,
   ): Promise<Result<PaginationResponseDto>>;
 
   abstract findByIdList(ids: string[]): Promise<Result<Product[]>>;
+
+  abstract searchProducts(
+    query: string,
+    pagination: PaginationDto,
+  ): Promise<Result<Product[]>>;
 }
