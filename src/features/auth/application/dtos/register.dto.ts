@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class RegisterUserDto {
@@ -10,6 +11,8 @@ export class RegisterUserDto {
   last_name: string;
 
   @IsEmail()
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  @Transform(({ value }) => value.toLowerCase().trim())
   email: string;
 
   @IsString()

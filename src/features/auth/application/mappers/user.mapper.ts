@@ -10,6 +10,7 @@ export class UserMapper {
       lastName: data.last_name,
       id: data.id,
       role: data.role,
+      status: data.status,
     });
   }
 

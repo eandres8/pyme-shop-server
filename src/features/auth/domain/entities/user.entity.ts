@@ -5,6 +5,7 @@ export class User {
     readonly lastName: string,
     readonly email: string,
     readonly role: string,
+    readonly status: string,
   ) {}
 
   static fromJson(data: Partial<User>) {
@@ -14,6 +15,7 @@ export class User {
       data?.lastName || '',
       data?.email || '',
       data?.role || '',
+      data?.status || '',
     );
   }
 

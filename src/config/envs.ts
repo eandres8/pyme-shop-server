@@ -8,6 +8,8 @@ type EnvVars = {
   DATABASE_USERNAME: string;
   DATABASE_PASSWORD: string;
   DATABASE_NAME: string;
+  JWT_SECRET: string;
+  JWT_EXPIRATION_TIME: string;
 };
 
 const envSchema = joi
@@ -18,6 +20,8 @@ const envSchema = joi
     DATABASE_USERNAME: joi.string().required(),
     DATABASE_PASSWORD: joi.string().required(),
     DATABASE_NAME: joi.string().required(),
+    JWT_SECRET: joi.string().required(),
+    JWT_EXPIRATION_TIME: joi.string().required(),
   })
   .unknown(true);
 

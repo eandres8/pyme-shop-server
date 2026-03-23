@@ -1,12 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { UserRepository } from 'src/features/auth/domain/ports';
-import { RegisterUserDto, AuthResponseDto } from '../../dtos';
+import { RegisterUserDto, AuthResponseDto, JwtPayloadDto } from '../../dtos';
 import { UserMapper } from '../../mappers';
+import { JwtFacade } from '../../facades';
 
 @Injectable()
 export class RegisterUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly jwtFacade: JwtFacade,
+  ) {}
 
   async execute(registerDto: RegisterUserDto): Promise<AuthResponseDto> {
     const newUser = UserMapper.toNewUser({
@@ -27,11 +31,15 @@ export class RegisterUser {
       throw userResult.getError();
     }
 
-    // TODO: return token
+    const token = this.jwtFacade.getJwtToken(
+      JwtPayloadDto.toInstance({
+        email: userResult.getData().email,
+      }),
+    );
 
     return {
       user: userResult.getData().toPublic(),
-      token: 'token' as any,
+      token,
     };
   }
 }
