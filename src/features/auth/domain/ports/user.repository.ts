@@ -5,6 +5,6 @@ import { NewUser } from '../entities';
 
 export abstract class UserRepository {
   abstract createUser(user: NewUser): Promise<Result<User>>;
-  abstract signinUser(user: TSession): Promise<Result<User>>;
+  abstract signinUser(user: TSession): Promise<Result<boolean>>;
   abstract findUserByEmail(email: string): Promise<Result<User>>;
 }

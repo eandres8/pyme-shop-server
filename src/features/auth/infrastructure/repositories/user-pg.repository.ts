@@ -14,6 +14,7 @@ import { TSession } from '../../domain/types';
 import { UserPgModel } from '../models';
 import { getErrorMessage } from 'src/data/helpers';
 import { UserMapper } from '../../application/mappers';
+import { CryptoAdapter } from 'src/data/adapters';
 
 @Injectable()
 export class UserPgRepository implements UserRepository {
@@ -25,7 +26,10 @@ export class UserPgRepository implements UserRepository {
   ) {}
 
   async createUser(user: NewUser): Promise<Result<User>> {
-    const data = UserMapper.toNewPersiste(user);
+    const data = UserMapper.toNewPersiste({
+      ...user,
+      password: CryptoAdapter.hashSync(user.password),
+    });
     const userModel = this.userModel.create(data);
 
     const [newUser, error] = await to(this.userModel.save(userModel));
@@ -40,9 +44,14 @@ export class UserPgRepository implements UserRepository {
     return Result.success(UserMapper.toDomain(newUser));
   }
 
-  async signinUser(user: TSession): Promise<Result<User>> {
-    const [newUser, error] = await to(
-      this.userModel.findOneBy({ email: user.email }),
+  async signinUser(user: TSession): Promise<Result<boolean>> {
+    const { email, password } = user;
+
+    const [userData, error] = await to(
+      this.userModel.findOne({
+        where: { email },
+        select: { email: true, password: true },
+      }),
     );
 
     if (error) {
@@ -51,13 +60,21 @@ export class UserPgRepository implements UserRepository {
       return Result.failure(new BadRequestException(errMessage));
     }
 
-    if (!newUser) {
-      const errMessage = 'La contraseña/correo son incorrectos';
+    if (!userData) {
+      const errMessage = 'El usuario/contraseña son incorrectos';
       this.logger.error(errMessage);
       return Result.failure(new UnauthorizedException(errMessage));
     }
 
-    return Result.success(UserMapper.toDomain(newUser));
+    const isSync = CryptoAdapter.compareSync(password, userData.password);
+
+    if (!isSync) {
+      const errMessage = 'Los datos usuario/contraseña son incorrectos';
+      this.logger.error(errMessage);
+      return Result.failure(new UnauthorizedException(errMessage));
+    }
+
+    return Result.success(true);
   }
 
   async findUserByEmail(email: string): Promise<Result<User>> {

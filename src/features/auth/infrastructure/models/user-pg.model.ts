@@ -20,7 +20,7 @@ export class UserPgModel {
   @Column({ type: 'varchar', length: 100, nullable: false, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column({ type: 'varchar', length: 100, nullable: false, select: false })
   password: string;
 
   @Column({ type: 'varchar', length: 20, default: 'ACTIVE' })

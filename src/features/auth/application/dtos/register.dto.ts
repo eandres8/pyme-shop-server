@@ -1,13 +1,4 @@
-import {
-  IsEmail,
-  IsJWT,
-  IsNotEmpty,
-  IsString,
-  MinLength,
-} from 'class-validator';
-import { Type } from 'class-transformer';
-
-import { User } from '../../domain/entities';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class RegisterUserDto {
   @IsString()
@@ -25,12 +16,4 @@ export class RegisterUserDto {
   @IsNotEmpty()
   @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
   password: string;
-}
-
-export class RegisterResponseDto {
-  @Type(() => User)
-  user: User;
-
-  @IsJWT()
-  token: string;
 }

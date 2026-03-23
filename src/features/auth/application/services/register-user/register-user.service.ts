@@ -1,25 +1,23 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { UserRepository } from 'src/features/auth/domain/ports';
-import { RegisterResponseDto, RegisterUserDto } from '../../dtos';
-import { CryptoAdapter } from 'src/data/adapters';
+import { RegisterUserDto, AuthResponseDto } from '../../dtos';
 import { UserMapper } from '../../mappers';
 
 @Injectable()
 export class RegisterUser {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async execute(registerDto: RegisterUserDto): Promise<RegisterResponseDto> {
+  async execute(registerDto: RegisterUserDto): Promise<AuthResponseDto> {
     const newUser = UserMapper.toNewUser({
       ...registerDto,
-      password: CryptoAdapter.encrypt(registerDto.password),
     });
 
     const emailResult = await this.userRepository.findUserByEmail(
       newUser.email,
     );
 
-    if (emailResult.isOk) {
+    if (emailResult.isOk && emailResult.getData().id) {
       throw new BadRequestException('El usuario ya existe');
     }
 
@@ -32,7 +30,7 @@ export class RegisterUser {
     // TODO: return token
 
     return {
-      user: userResult.getData(),
+      user: userResult.getData().toPublic(),
       token: 'token' as any,
     };
   }

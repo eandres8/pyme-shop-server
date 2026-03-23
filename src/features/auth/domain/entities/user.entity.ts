@@ -16,4 +16,13 @@ export class User {
       data?.role || '',
     );
   }
+
+  toPublic() {
+    return {
+      id: this.id,
+      first_name: this.firstName,
+      last_name: this.lastName,
+      email: this.email,
+    };
+  }
 }
