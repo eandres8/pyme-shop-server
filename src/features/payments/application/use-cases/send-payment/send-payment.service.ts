@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 
 import { SendPaymentDto } from '../../dtos';
 import {
@@ -13,7 +14,9 @@ export class SendPayment {
     private readonly paymentGateway: PaymentGateway,
   ) {}
 
+  @OnEvent('order.created')
   execute(sendPaymentDto: SendPaymentDto) {
-    console.log({ sendPaymentDto });
+    const data = SendPaymentDto.toInstance(sendPaymentDto);
+    console.log({ data });
   }
 }

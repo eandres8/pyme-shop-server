@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 import { CreateOrderDto } from '../../dtos';
 import { Order } from 'src/features/orders/domain/entities';
@@ -11,6 +12,7 @@ export class CreateOrder {
   constructor(
     private readonly orderRepo: OrdersRepository,
     private readonly productRepo: ProductsRepository,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async execute(data: CreateOrderDto, uid: string) {
@@ -48,6 +50,17 @@ export class CreateOrder {
     if (!result.isOk) {
       throw new BadRequestException(result.getError().message);
     }
+
+    const orderData = result.getData();
+
+    const eventData = {
+      orderId: orderData.id,
+      total: orderData.total,
+    };
+
+    console.log(eventData);
+
+    this.eventEmitter.emit('order.created', eventData);
 
     return result.getData();
   }

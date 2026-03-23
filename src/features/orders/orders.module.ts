@@ -14,6 +14,7 @@ import { ListUserOrders } from './application/use-cases/list-user-orders/list-us
 import { AuthModule } from '../auth/auth.module';
 import { ProductsRepository } from '../products/domain/ports';
 import { OrdersRepository } from './domain/ports';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { OrdersRepository } from './domain/ports';
       ProductImagePgModel,
     ]),
     AuthModule,
+    SharedModule,
   ],
   controllers: [OrdersController],
   providers: [

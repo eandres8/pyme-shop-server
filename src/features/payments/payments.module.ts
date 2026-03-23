@@ -9,11 +9,13 @@ import { WompiGateway } from './infrastructure/gateways';
 import { AuthModule } from '../auth/auth.module';
 import { PaymentGateway, PaymentRepository } from './domain/ports';
 import { SendPayment, WebhookResponsePayment } from './application/use-cases';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([PaymentPgModel, OrderPgModel]),
     AuthModule,
+    SharedModule,
   ],
   controllers: [PaymentsController],
   providers: [
