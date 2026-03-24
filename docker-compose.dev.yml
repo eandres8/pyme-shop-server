@@ -1,4 +1,4 @@
-version: "3.9"
+name: pyme-shop
 
 services:
   app:
@@ -21,6 +21,8 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME}
+      PAY_GATEWAY_URL: ${PAY_GATEWAY_URL}
+      PAY_GATEWAY_API_PUB_KEY: ${PAY_GATEWAY_API_PUB_KEY}
     command: pnpm start:dev
     depends_on:
       - postgres
@@ -35,7 +37,4 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      - postgres_dev_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_dev_data:
+      - ./postgres:/var/lib/postgresql/data

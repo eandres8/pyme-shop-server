@@ -12,4 +12,4 @@ COPY . .
 
 ENV NODE_ENV=development
 
-CMD ["pnpm", "typeorm:migration:run", "&&", "pnpm", "start:dev"]
+CMD ["pnpm", "migration:run", "&&", "pnpm", "start:dev"]

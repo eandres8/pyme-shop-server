@@ -1,11 +1,5 @@
-import { Transform, Type } from 'class-transformer';
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  IsPositive,
-  ValidateNested,
-} from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsString, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
 
 export class CreateTransactionDto {
   @Transform(({ value }) => Number(value))
@@ -25,12 +19,8 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   readonly customer_email: string;
 
-  @Type(() => CustomerData)
-  @ValidateNested()
   readonly customer_data: CustomerData;
 
-  @Type(() => PaymentMethod)
-  @ValidateNested()
   readonly payment_method: PaymentMethod;
 
   @IsString()

@@ -124,6 +124,13 @@ Tambien es posible levantar el servidor de manera local con el comando docker
 docker compose -f docker-compose.dev.yml up --build
 ```
 
+## 🚨🚨
+Es imporntante lanzar el comando de las migraciones para crear y poblar la base de datos
+
+```bash
+pnpm migration:run
+```
+
 ---
 
 ## 🧪 Testing
