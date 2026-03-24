@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Like, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 
 import { ProductsRepository } from '../../../domain/ports/products.repository';
 import { ProductPgModel } from '../../models';
@@ -70,7 +70,7 @@ export class ProductsPgRepository implements ProductsRepository {
     pagination: PaginationDto,
     search?: string,
   ): Promise<Result<PaginationResponseDto>> {
-    const filters = search ? { where: { title: Like(`%${search}%`) } } : {};
+    const filters = search ? { where: { title: ILike(`%${search}%`) } } : {};
 
     const [total, error] = await to(this.model.count(filters));
 
@@ -110,7 +110,7 @@ export class ProductsPgRepository implements ProductsRepository {
     const [listProducts, error] = await to(
       this.model.find({
         where: {
-          title: Like(`%${query}%`),
+          title: ILike(`%${query}%`),
         },
         take: pagination.limit,
         skip: (pagination.page - 1) * pagination.limit,
