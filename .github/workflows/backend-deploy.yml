@@ -1,0 +1,23 @@
+name: Deploy Backend
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/mi-repo-backend
+            git pull origin main
+            npm install
+            npm run build
+            # Ejecutar migraciones de TypeORM si es necesario 
+            pm2 restart all || pm2 start dist/main.js --name "nest-api"
