@@ -12,6 +12,7 @@ type EnvVars = {
   JWT_EXPIRATION_TIME: string;
   PAY_GATEWAY_URL: string;
   PAY_GATEWAY_API_PUB_KEY: string;
+  ORIGIN: string;
 };
 
 const envSchema = joi
@@ -26,6 +27,7 @@ const envSchema = joi
     JWT_EXPIRATION_TIME: joi.string().required(),
     PAY_GATEWAY_URL: joi.string().required(),
     PAY_GATEWAY_API_PUB_KEY: joi.string().required(),
+    ORIGIN: joi.string().required(),
   })
   .unknown(true);
 
