@@ -1,5 +1,5 @@
-import { Product } from '../../domain/entities';
-import { ProductPgModel } from '../../infrastructure/models';
+import { Product } from '../../../domain/entities';
+import { ProductPgModel } from '../../../infrastructure/models';
 
 export class ProductMapper {
   static toProduct(product: ProductPgModel): Product {

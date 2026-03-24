@@ -5,7 +5,7 @@ import { PaymentsController } from './infrastructure/controllers';
 import { PaymentPgModel } from './infrastructure/models';
 import { PaymentPgRepository } from './infrastructure/repositories/payments/payment-pg.repository';
 import { OrderPgModel } from '../orders/infrastructure/models';
-import { WompiGateway } from './infrastructure/gateways';
+import { BankGateway } from './infrastructure/gateways';
 import { AuthModule } from '../auth/auth.module';
 import { PaymentGateway, PaymentRepository } from './domain/ports';
 import { SendPayment, WebhookResponsePayment } from './application/use-cases';
@@ -28,7 +28,7 @@ import { SharedModule } from '../shared/shared.module';
     },
     {
       provide: PaymentGateway,
-      useClass: WompiGateway,
+      useClass: BankGateway,
     },
   ],
 })

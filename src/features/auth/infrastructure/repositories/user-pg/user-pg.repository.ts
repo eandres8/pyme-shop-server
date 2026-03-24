@@ -8,12 +8,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Result, to } from 'src/data/core';
-import { NewUser, User } from '../../domain/entities';
-import { UserRepository } from '../../domain/ports';
-import { TSession } from '../../domain/types';
-import { UserPgModel } from '../models';
+import { NewUser, User } from '../../../domain/entities';
+import { UserRepository } from '../../../domain/ports';
+import { TSession } from '../../../domain/types';
+import { UserPgModel } from '../../models';
 import { getErrorMessage } from 'src/data/helpers';
-import { UserMapper } from '../../application/mappers';
+import { UserMapper } from '../../../application/mappers';
 import { CryptoAdapter } from 'src/data/adapters';
 
 @Injectable()

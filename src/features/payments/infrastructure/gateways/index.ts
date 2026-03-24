@@ -1,1 +1,1 @@
-export * from './wompi-api/wompi-api.gateway';
+export * from './bank-api/bank-api.gateway';

@@ -1,1 +1,1 @@
-export * from './crypto.adapter';
+export * from './crypto/crypto.adapter';

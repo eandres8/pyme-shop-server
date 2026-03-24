@@ -6,8 +6,8 @@ import { OrdersRepository } from '../../../domain/ports/orders.repository';
 import { Result, to } from 'src/data/core';
 import { Order } from 'src/features/orders/domain/entities';
 import { OrderItemPgModel, OrderPgModel } from '../../models';
-import { OrderMapper } from 'src/features/orders/application/mappers/order.mapper';
 import { getErrorMessage } from 'src/data/helpers';
+import { OrderMapper } from 'src/features/orders/application/mappers';
 
 @Injectable()
 export class OrdersPgRepository implements OrdersRepository {
@@ -62,7 +62,7 @@ export class OrdersPgRepository implements OrdersRepository {
     if (error) {
       const errMessage = getErrorMessage(error);
       this.logger.error(errMessage);
-      return Result.failure(error);
+      return Result.failure(new Error(error.message));
     }
 
     return Result.success(orders.map((order) => OrderMapper.toDomain(order)));

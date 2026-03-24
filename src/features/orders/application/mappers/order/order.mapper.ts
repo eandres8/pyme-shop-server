@@ -1,7 +1,7 @@
-import { Order } from '../../domain/entities';
-import { OrderStatus } from '../../domain/types';
-import { OrderItem } from '../../domain/value-objects';
-import { OrderPgModel } from '../../infrastructure/models';
+import { Order } from 'src/features/orders/domain/entities';
+import { OrderStatus } from 'src/features/orders/domain/types';
+import { OrderItem } from 'src/features/orders/domain/value-objects';
+import { OrderPgModel } from 'src/features/orders/infrastructure/models';
 
 export class OrderMapper {
   static toPersistence(order: Order) {

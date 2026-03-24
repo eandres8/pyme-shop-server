@@ -1,5 +1,5 @@
-import { Payment } from '../../domain/entities/payment.entity';
-import { PaymentPgModel } from '../../infrastructure/models';
+import { Payment } from 'src/features/payments/domain/entities';
+import { PaymentPgModel } from 'src/features/payments/infrastructure/models';
 
 export class PaymentMapper {
   static toPersistence(payment: Payment) {

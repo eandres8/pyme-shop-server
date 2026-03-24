@@ -6,8 +6,8 @@ import { Result, to } from 'src/data/core';
 import { Payment } from '../../../domain/entities/payment.entity';
 import { PaymentPgModel } from '../../models';
 import { getErrorMessage } from 'src/data/helpers';
-import { PaymentMapper } from '../../../application/mappers/payment.mapper';
 import { PaymentRepository } from 'src/features/payments/domain/ports';
+import { PaymentMapper } from 'src/features/payments/application/mappers';
 
 @Injectable()
 export class PaymentPgRepository implements PaymentRepository {
@@ -26,7 +26,6 @@ export class PaymentPgRepository implements PaymentRepository {
     const [newPayment, error] = await to(this.paymentModel.save(paymentModel));
 
     if (error) {
-      console.log(error);
       const errMessage = getErrorMessage(error);
       this.logger.error(errMessage);
       return Result.failure(new Error(errMessage));

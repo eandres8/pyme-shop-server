@@ -1,0 +1,38 @@
+module.exports = {
+  moduleFileExtensions: ['js', 'json', 'ts'],
+  testRegex: '.*\\.spec\\.ts$',
+  transform: {
+    '^.+\\.(t|j)s$': 'ts-jest',
+  },
+  collectCoverage: true, // Activar la cobertura de código
+  collectCoverageFrom: [
+    '**/*.(t|j)s',
+    '!**/main.ts',
+    '!**/data-source.ts',
+    '!**/migrations/**',
+    '!**/node_modules/**',
+    '!**/dist/**',
+    '!**/index.ts',
+    "!**/*.module.ts",
+    "!**/types/*",
+    "!**/entities/*",
+    "!**/dtos/**",
+    "!**/value-objects/**",
+    "!**/ports/**",
+    "!**/entities/**",
+    "!**/models/**",
+    "!**/coverage/**",
+    "!**/config/**",
+  ],
+  testEnvironment: 'node',
+  moduleNameMapper: {
+    '^src/(.*)$': '<rootDir>/src/$1',
+  },
+  silent: true,
+  preset: "ts-jest",
+  coverageReporters: ["html", "lcov", "text"],
+  clearMocks: true,
+  reporters: ["default", "jest-junit"],
+  roots: ['<rootDir>/src'],
+  coverageDirectory: 'coverage',
+};

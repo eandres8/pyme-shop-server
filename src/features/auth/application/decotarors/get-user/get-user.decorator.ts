@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 
-import { User } from '../../domain/entities';
+import { User } from 'src/features/auth/domain/entities';
 
 export const GetUser = createParamDecorator((data, ctx: ExecutionContext) => {
   const user = ctx.switchToHttp().getRequest().user;
