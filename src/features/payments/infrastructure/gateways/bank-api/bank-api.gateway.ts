@@ -33,11 +33,12 @@ export class BankGateway implements PaymentGateway {
     );
 
     if (error) {
+      this.logger.error(error);
       return Result.failure(new Error(error.message));
     }
 
     return Result.success({
-      accepted_currency: response.accepted_currencies.at(0) || '',
+      accepted_currency: response.accepted_currencies?.at(0) || '',
       payment_methods: response.accepted_payment_methods,
       acceptance_token: response.presigned_acceptance.acceptance_token,
     });

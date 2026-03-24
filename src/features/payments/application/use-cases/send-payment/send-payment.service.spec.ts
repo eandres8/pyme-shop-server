@@ -29,17 +29,18 @@ describe('SendPayment', () => {
     jest.clearAllMocks();
   });
 
-  const mockDto = { orderId: 'order-1', total: 500 };
-  const mockPaymentData = { id: 'pay-1', orderId: 'order-1', amount: 500 };
+  const mockDto = SendPaymentDto.toInstance({ orderId: 'order-1', total: 500 });
+  const mockPaymentData = Payment.fromJson({
+    id: 'pay-1',
+    orderId: 'order-1',
+    amount: 500,
+  });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
   it('should create payment successfully', async () => {
-    // Mock DTO conversion
-    jest.spyOn(SendPaymentDto, 'toInstance').mockReturnValue(mockDto as any);
-
     paymentRepo.createPayment.mockResolvedValue({
       isOk: true,
       getData: () => mockPaymentData,
@@ -54,9 +55,6 @@ describe('SendPayment', () => {
   });
 
   it('should return undefined and log error if createPayment fails', async () => {
-    jest.spyOn(SendPaymentDto, 'toInstance').mockReturnValue(mockDto as any);
-    jest.spyOn(Payment, 'fromJson').mockReturnValue(mockPaymentData as any);
-
     const loggerSpy = jest
       .spyOn(Logger.prototype, 'error')
       .mockImplementation();

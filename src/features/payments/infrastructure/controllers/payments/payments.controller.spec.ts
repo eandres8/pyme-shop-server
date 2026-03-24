@@ -35,25 +35,27 @@ describe('PaymentsController', () => {
     controller = module.get<PaymentsController>(PaymentsController);
     sendPaymentService = module.get(SendPayment);
     webhookService = module.get(WebhookResponsePayment);
+  });
 
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  const mockSendPaymentDto: SendPaymentDto = {
+  const mockSendPaymentDto: SendPaymentDto = SendPaymentDto.toInstance({
     orderId: 'o1',
     total: 100,
-  } as SendPaymentDto;
+  });
 
   const mockWebhookDto: WebhookResponseDto = {
     paymentId: 'o1',
     status: 'SUCCESS',
   };
 
-  const mockSendResult: Payment = {
+  const mockSendResult: Payment = Payment.fromJson({
     id: 'pay-1',
     orderId: 'o1',
     amount: 100,
-  } as Payment;
+  });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
