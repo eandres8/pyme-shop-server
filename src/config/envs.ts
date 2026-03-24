@@ -10,6 +10,8 @@ type EnvVars = {
   DATABASE_NAME: string;
   JWT_SECRET: string;
   JWT_EXPIRATION_TIME: string;
+  PAY_GATEWAY_URL: string;
+  PAY_GATEWAY_API_PUB_KEY: string;
 };
 
 const envSchema = joi
@@ -22,6 +24,8 @@ const envSchema = joi
     DATABASE_NAME: joi.string().required(),
     JWT_SECRET: joi.string().required(),
     JWT_EXPIRATION_TIME: joi.string().required(),
+    PAY_GATEWAY_URL: joi.string().required(),
+    PAY_GATEWAY_API_PUB_KEY: joi.string().required(),
   })
   .unknown(true);
 

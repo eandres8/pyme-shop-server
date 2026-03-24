@@ -1,8 +1,13 @@
 import { Result } from 'src/data/core';
-import { TPaymentParams, TPaymentResponse } from '../../domain/types';
+import { TPaymentMerchantResponse, TPaymentParams } from '../../domain/types';
+import { CreateTransactionDto } from '../../application/dtos';
 
 export abstract class PaymentGateway {
   abstract sendPayment(
     params: TPaymentParams,
-  ): Promise<Result<TPaymentResponse>>;
+  ): Promise<Result<TPaymentMerchantResponse>>;
+
+  abstract createPaymentTransaction(
+    data: CreateTransactionDto,
+  ): Promise<Result<TPaymentParams>>;
 }

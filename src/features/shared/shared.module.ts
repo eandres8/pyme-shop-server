@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 
@@ -8,7 +9,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
       delimiter: '.',
       maxListeners: 10,
     }),
+    HttpModule,
   ],
-  exports: [EventEmitterModule],
+  exports: [EventEmitterModule, HttpModule],
 })
 export class SharedModule {}
