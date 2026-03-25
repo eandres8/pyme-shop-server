@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 
 import { envs } from './config/envs';
 import { AppModule } from './app.module';
+import { swaggerConfig } from './config/swagger';
 
 console.log(envs);
 
@@ -24,15 +25,8 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  const config = new DocumentBuilder()
-    .setTitle('Pyme Shop')
-    .setDescription(
-      'API para Pyme Shop donde documentar los servicios prestados',
-    )
-    .setVersion('1.0')
-    .addTag('Pyme Shop')
-    .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, documentFactory);
 
   await app.listen(envs.PORT, () => {
